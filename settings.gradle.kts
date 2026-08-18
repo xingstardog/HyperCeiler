@@ -2,7 +2,7 @@
 
 data class GprCredentials(val user: String, val key: String)
 
-fun loadGprCredentials(): GprCredentials {
+fun loadGprCredentials(): GprCredentials? {
     // 优先从环境变量读取
     val envUser = System.getenv("GIT_ACTOR")?.takeIf { it.isNotBlank() }
     val envKey = System.getenv("GIT_TOKEN")?.takeIf { it.isNotBlank() }
@@ -14,11 +14,7 @@ fun loadGprCredentials(): GprCredentials {
     // 从 signing.properties 读取
     val propsFile = File(rootDir, "signing.properties")
     if (!propsFile.exists()) {
-        throw GradleException(
-            "Missing GitHub credentials. Please either:\n" +
-            "  1. Set GIT_ACTOR and GIT_TOKEN environment variables, or\n" +
-            "  2. Create 'signing.properties' with 'gpr.user' and 'gpr.key'"
-        )
+        return null
     }
 
     val props = java.util.Properties().apply {
@@ -29,7 +25,7 @@ fun loadGprCredentials(): GprCredentials {
     val key = props.getProperty("gpr.key")?.takeIf { it.isNotBlank() }
 
     if (user == null || key == null) {
-        throw GradleException("'gpr.user' and 'gpr.key' must be set in 'signing.properties'")
+        return null
     }
 
     return GprCredentials(user, key)
@@ -53,10 +49,12 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         mavenLocal()
-        maven("https://maven.pkg.github.com/ReChronoRain/HyperCeiler") {
-            credentials {
-                username = gprCredentials.user
-                password = gprCredentials.key
+        gprCredentials?.let { credentials ->
+            maven("https://maven.pkg.github.com/ReChronoRain/HyperCeiler") {
+                this.credentials {
+                    username = credentials.user
+                    password = credentials.key
+                }
             }
         }
         maven("https://jitpack.io")

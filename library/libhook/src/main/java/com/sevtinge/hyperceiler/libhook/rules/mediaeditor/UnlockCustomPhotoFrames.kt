@@ -192,13 +192,13 @@ object UnlockCustomPhotoFrames : BaseHook() {
             }
         }
 
-        if (isLeica && !is24012Version && methodB != null) {
+        if ((isLeica && !is24012Version && methodB != null)) {
             // 1.10.0.0.6 新增 Xiaomi 15 Ultra 独占定制画框
             // 2.4.0.1.2 取消独占状态
             methodB?.createBeforeHook {
                 AndroidBuildCls.setStaticObjectField(
                     "DEVICE",
-                    "xuanyuan"
+                    "xuanyuan",
                 )
             }
         }
@@ -207,8 +207,8 @@ object UnlockCustomPhotoFrames : BaseHook() {
             // Redmi Note 13 Pro+ 定制版画框
             val base = methodA.first().declaringClass.name
             // 优先尝试常见的内部类名，找到即挂钩，避免不必要地回退计算
-            val target = runCatching { findClass($$"$${base}$a") }.getOrNull()
-                ?: runCatching { findClass($$"$${base}$2") }.getOrNull()
+            val target = runCatching { findClass("${base}\$a") }.getOrNull()
+                ?: runCatching { findClass("${base}\$2") }.getOrNull()
 
             if (target != null) {
                 target.findMethodOrNull { name("invoke") }

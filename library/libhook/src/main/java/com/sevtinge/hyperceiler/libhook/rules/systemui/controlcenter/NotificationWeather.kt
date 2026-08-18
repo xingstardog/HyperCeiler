@@ -213,6 +213,7 @@ object NotificationWeather : BaseHook() {
 
     private fun addWeatherViewAfterOf(view: View, @Orientation key: Int) {
         val weatherView = WeatherView(view.context, isDisplayCity).apply {
+            id = View.generateViewId()
             var appearance = "TextAppearance."
             when (key) {
                 ORIENTATION_PORTRAIT -> {

@@ -159,6 +159,7 @@ public class AppsTool {
             float density = res.getDisplayMetrics().density;
 
             mPct = new TextView(context);
+            mPct.setId(View.generateViewId());
             mPct.setTextSize(TypedValue.COMPLEX_UNIT_SP, 40);
             mPct.setGravity(Gravity.CENTER);
 

@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter
 
 import android.annotation.SuppressLint
+import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
@@ -64,6 +65,7 @@ object OldWeather : BaseHook() {
                 )
 
                 mWeatherView = WeatherView(context, isDisplayCity).apply {
+                    id = View.generateViewId()
                     setTextAppearance(
                         context.getIdByName(
                             "TextAppearance.StatusBar.Expanded.Clock.QuickSettingDate",

@@ -105,7 +105,7 @@ abstract class MusicBaseHook : BaseHook() {
             focusaodlyricLayout = modRes.getIdByName("focusaodlyric_layout", "layout", ProjectApi.mAppModulePkg),
             focuslyricId = modRes.getIdByName("focuslyric", "id", ProjectApi.mAppModulePkg),
             focusiconId = modRes.getIdByName("focusicon", "id", ProjectApi.mAppModulePkg),
-            focustflyricId = modRes.getIdByName("focustflyric", "id", ProjectApi.mAppModulePkg)
+            focustflyricId = modRes.getIdByName("focustflyric", "id", ProjectApi.mAppModulePkg),
         )
     }
 
@@ -141,7 +141,7 @@ abstract class MusicBaseHook : BaseHook() {
     private var lyricReceiverRegistered = false
 
     init {
-        com.sevtinge.hyperceiler.libhook.base.BaseHook.runOnApplicationAttach {
+        BaseHook.runOnApplicationAttach {
             registerLyricReceiver()
         }
     }
@@ -510,7 +510,7 @@ abstract class MusicBaseHook : BaseHook() {
             }
 
             // AOD 模式设置图标
-            if (isAod && icon != null) {
+            if ((isAod && icon != null)) {
                 setImageViewBitmap(resourceIds.focusiconId, icon.loadDrawable(context)?.toBitmap())
             }
         }
