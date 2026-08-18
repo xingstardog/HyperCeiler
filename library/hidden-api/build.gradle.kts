@@ -13,12 +13,6 @@ android {
         create("beta") {
             isMinifyEnabled = false
         }
-        create("canary") {
-            isMinifyEnabled = false
-        }
-        debug {
-            isMinifyEnabled = false
-        }
     }
 }
 

@@ -30,7 +30,6 @@ android {
     buildTypes {
         release {}
         create("beta") {}
-        create("canary") {}
     }
 }
 

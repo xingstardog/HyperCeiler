@@ -49,7 +49,7 @@ android {
         minSdk = 35
         targetSdk = 37
         versionCode = gitVersionCode
-        versionName = "2.10.166"
+        versionName = "3.0.0"
 
         val buildTime = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").apply {
             timeZone = TimeZone.getTimeZone("Asia/Shanghai")
@@ -98,11 +98,6 @@ android {
             ?: System.getenv(environmentName)
             ?: System.console()?.readLine("\n$prompt: ").orEmpty()
 
-    val buildTimeSuffix: String by lazy {
-        SimpleDateFormat("MMddHHmm").apply {
-            timeZone = TimeZone.getTimeZone("Asia/Shanghai")
-        }.format(Date())
-    }
     val dateSuffix: String by lazy {
         DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now())
     }
@@ -149,25 +144,7 @@ android {
             applyBase()
             configSigning()
             buildConfigField("String", "GIT_HASH", "\"$gitHashLong\"")
-            versionNameSuffix = "-$dateSuffix"
-        }
-
-        create("canary") {
-            applyBase()
-            configSigning()
-            buildConfigField("String", "GIT_HASH", "\"$gitHashLong\"")
-            versionNameSuffix = "-${gitHash}-r${gitVersionCode}"
-        }
-
-        debug {
-            isMinifyEnabled = false
-            buildConfigField("String", "GIT_HASH", "\"$gitHashLong\"")
-            buildConfigField("String", "GIT_CODE", "\"$gitVersionCode\"")
-            versionNameSuffix = "-${buildTimeSuffix}-r${gitVersionCode}"
-            val hasSigningProps = properties?.getProperty("storeFile")?.isNotBlank() == true || System.getenv("STORE_FILE")?.isNotBlank() == true
-            if (hasSigningProps) {
-                signingConfig = signingConfigs.findByName("hasProperties")
-            }
+            versionNameSuffix = "-Beta-$dateSuffix"
         }
     }
 
