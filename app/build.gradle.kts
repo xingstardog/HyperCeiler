@@ -60,7 +60,9 @@ android {
             "BUILD_OS_NAME" to System.getProperty("os.name"),
             "BUILD_USER_NAME" to System.getProperty("user.name"),
             "BUILD_JAVA_VERSION" to System.getProperty("java.version"),
-            "GIT_BRANCH" to gitBranch
+            "GIT_BRANCH" to gitBranch,
+            "GIT_HASH" to gitHash,
+            "GIT_CODE" to gitVersionCode.toString()
         )
 
         for ((key, value) in buildConfigData) {
@@ -130,13 +132,11 @@ android {
 
         val applyBase: ApplicationBuildType.() -> Unit = {
             optimization.enable = true
-            buildConfigField("String", "GIT_CODE", "\"$gitVersionCode\"")
         }
 
         release {
             applyBase()
             configSigning()
-            buildConfigField("String", "GIT_HASH", "\"$gitHash\"")
             versionNameSuffix = "-$dateSuffix"
         }
 
